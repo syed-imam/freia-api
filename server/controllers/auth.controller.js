@@ -2,12 +2,11 @@ import jwt from 'jsonwebtoken';
 import httpStatus from 'http-status';
 import APIError from '../helpers/APIError';
 import config from '../../config/config';
-
+import user from '../models/user.model';
+import _ from 'lodash';
 // sample user, used for authentication
-const user = {
-  username: 'react',
-  password: 'express'
-};
+
+
 
 /**
  * Returns jwt token if valid username and password is provided
@@ -19,18 +18,28 @@ const user = {
 function login(req, res, next) {
   // Ideally you'll fetch this from the db
   // Idea here was to show how jwt works with simplicity
-  if (req.body.username === user.username && req.body.password === user.password) {
-    const token = jwt.sign({
-      username: user.username
-    }, config.jwtSecret);
-    return res.json({
-      token,
-      username: user.username
-    });
-  }
 
-  const err = new APIError('Authentication error', httpStatus.UNAUTHORIZED, true);
-  return next(err);
+  user.findOne({ 'email': req.body.username, 'password': req.body.password }, function (err, person) {
+
+    if (err) {
+    }
+    else {
+      if (_.isEmpty(person)) {
+        const err = new APIError('Authentication error', httpStatus.UNAUTHORIZED, true);
+        return next(err);
+      }
+      else
+      {const token = jwt.sign({
+         username: person.email
+      }, config.jwtSecret);
+      return res.json({
+        token,
+        username: person.email
+      });
+    }
+    }
+
+  });
 }
 
 /**

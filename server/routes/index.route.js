@@ -1,8 +1,17 @@
 import express from 'express';
 import userRoutes from './user.route';
 import authRoutes from './auth.route';
+import bodyParser from 'body-parser';
 
 const router = express.Router(); // eslint-disable-line new-cap
+
+
+// parse application/x-www-form-urlencoded
+router.use(bodyParser.urlencoded({ extended: false }))
+
+// parse application/json
+router.use(bodyParser.json())
+
 
 /** GET /health-check - Check service health */
 router.get('/health-check', (req, res) =>
