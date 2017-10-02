@@ -13,7 +13,11 @@ router.route('/login')
 
 /** GET /api/auth/random-number - Protected route,
  * needs token returned by the above as header. Authorization: Bearer {token} */
-router.route('/random-number')
-  .get(expressJwt({ secret: config.jwtSecret }), authCtrl.getRandomNumber);
+router.route('/add')
+  .get(expressJwt({secret: config.jwtSecret }), authCtrl.addItemToFridge);
+
+router.route('/remove')
+  .get(expressJwt({secret: config.jwtSecret }), authCtrl.removeItemFromFridge);
+
 
 export default router;

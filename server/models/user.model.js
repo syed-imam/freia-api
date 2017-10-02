@@ -9,7 +9,8 @@ import APIError from '../helpers/APIError';
 const UserSchema = new mongoose.Schema({
   name: String,
   email:String,
-  password: String
+  password: String,
+  fridgeItems: Array
 });
 
 // To access properties of a model of this schema, we need to declare the fields in schema

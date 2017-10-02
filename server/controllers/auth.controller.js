@@ -43,17 +43,42 @@ function login(req, res, next) {
 }
 
 /**
- * This is a protected route. Will return random number only if jwt token is provided in header.
+ * This is a protected route. Will add fridge items in the fridge for User only if valid jwt token is provided in header.
  * @param req
  * @param res
  * @returns {*}
  */
-function getRandomNumber(req, res) {
-  // req.user is assigned by jwt middleware if valid token is provided
-  return res.json({
-    user: req.user,
-    num: Math.random() * 100
+
+
+function addItemToFridge(req, res){
+  //Using $push is most suitable in this scenario
+  user.findOneAndUpdate({email: "syedadilimam93@gmail.com"}, {$push: { "fridgeItems": {name:"Potatoes", quantityleft: 6, thresholdqty:3 }}}, {new:true}, function(err, doc){
+
+    if(err){
+      console.log("Something wrong when updating data!");
+    }
+
+    return res.json({
+      msg: doc.toString(),
+    });
+
   });
 }
 
-export default { login, getRandomNumber };
+
+function removeItemFromFridge(req, res){
+  //Using $push is most suitable in this scenario
+  user.findOneAndUpdate({email: "syedadilimam93@gmail.com"}, {$pull: { "fridgeItems": {name:"Tomatoes"}}}, {new:true}, function(err, doc){
+    if(err){
+      console.log("Something wrong when updating data!");
+    }
+    return res.json({
+      msg: doc.toString(),
+    });
+
+  });
+}
+
+
+
+export default { login, addItemToFridge, removeItemFromFridge};
