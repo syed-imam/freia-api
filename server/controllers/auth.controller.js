@@ -67,7 +67,7 @@ function removeItemFromFridge(req, res){
   //Using $push is most suitable in this scenario
   user.findOneAndUpdate({email: "syedadilimam93@gmail.com"}, {$pull: { "fridgeItems": {name:"Tomatoes"}}}, {new:true}, function(err, doc){
     if(err){
-      console.log("Wrong data!");
+      console.log("Error!");
     }
     return res.json({
       msg: doc.toString(),
