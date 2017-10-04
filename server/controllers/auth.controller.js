@@ -52,7 +52,7 @@ function addItemToFridge(req, res){
   user.findOneAndUpdate({email: "syedadilimam93@gmail.com"}, {$push: { "fridgeItems": {name:"Potatoes", quantityleft: 6, thresholdqty:3 }}}, {new:true}, function(err, doc){
 
     if(err){
-      console.log("Something wrong!");
+      console.log("wrong!");
     }
 
     return res.json({
