@@ -4,9 +4,6 @@ import APIError from '../helpers/APIError';
 import config from '../../config/config';
 import user from '../models/user.model';
 import _ from 'lodash';
-// sample user, used for authentication
-
-
 
 /**
  * Returns jwt token if valid username and password is provided
@@ -22,6 +19,7 @@ function login(req, res, next) {
   user.findOne({ 'email': req.body.username, 'password': req.body.password }, function (err, person) {
 
     if (err) {
+      console.log("Cannot process the request at this time");
     }
     else {
       if (_.isEmpty(person)) {
@@ -38,7 +36,6 @@ function login(req, res, next) {
       });
     }
     }
-
   });
 }
 
@@ -81,4 +78,20 @@ function removeItemFromFridge(req, res){
 
 
 
-export default { login, addItemToFridge, removeItemFromFridge};
+function searchItemInFridge(req, res){
+
+  user.find({"fridgeItems.name":"carrots"}, {"fridgeItems": 1}, function(err, doc){
+
+    if(err){
+      console.log("Error");
+    }
+    else
+    {
+     return res.json(doc);
+    }
+  }).filter(doc, {name:"carrots"});
+
+}
+
+
+export default { login, addItemToFridge, removeItemFromFridge, searchItemInFridge};

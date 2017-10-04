@@ -19,5 +19,9 @@ router.route('/add')
 router.route('/remove')
   .get(expressJwt({secret: config.jwtSecret }), authCtrl.removeItemFromFridge);
 
+router.route('/search')
+  .get(expressJwt({secret: config.jwtSecret }), authCtrl.searchItemInFridge);
+
+
 
 export default router;
